@@ -1,6 +1,7 @@
 import React from 'react';
 import GeneralCard from '../Components/GeneralCard';
 import {Form,Button} from 'react-bootstrap';
+import loading_img from '../images/loading.gif';
 
 
  class AltalanosPage extends React.Component{
@@ -29,7 +30,7 @@ import {Form,Button} from 'react-bootstrap';
                     return "";
                 }
         }); 
-        const Loading = <div>"malac"</div>;
+        const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
         const Option_subName = GeneralTaskSubjectNames.map((SubjectName) =>{
             if(SubjectName!=""){
         return (<option key={SubjectName} value={SubjectName}>{SubjectName}</option>);
@@ -55,7 +56,7 @@ import {Form,Button} from 'react-bootstrap';
         const AltalanosTasks = filtered_AltalanosTasks.map((i,AltanaosTask)=>{
             return (<GeneralCard key={i} AltanaosTask={i}/>)
         }).reverse();
-        return (<div className={"bg-light p-5 rounded"}>
+        return (<div className={"bg-light min-vh-100 p-5 rounded "}>
                             <Form.Group controlId="AltalanosSubject">
               <Form.Label>Melyik tantárgy?</Form.Label>
               <Form.Control as="select" name="AltalanosSubject" onChange={this.onChangeSubject}>

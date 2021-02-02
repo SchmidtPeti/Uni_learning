@@ -71,8 +71,8 @@ class VeletlenGeneralTask extends Component{
         :
         "Nincs még kijelölve tantárgy név";
         return(
-            <div>
-             <Form className="bg-light m-4 rounded p-3">   
+            <div className="bg-light min-vh-100 p-5 rounded">
+             <Form >   
             <Form.Group controlId="exampleForm.ControlSelect1">
             <Form.Label>Tantárgy név</Form.Label>
             <Form.Control as="select" onChange={this.onSelectChange}>
@@ -83,7 +83,7 @@ class VeletlenGeneralTask extends Component{
           <Form.Group>
             <Form.Control type="number" onChange={this.onChangeDb} placeholder="Hány darabot?" min={0} value={this.state.db} max={this.state.max} />
             </Form.Group>
-          <Button onClick={this.onClickFiler}>Mehet</Button>
+          <Button onClick={this.onClickFiler} className={"btn-lg btn-block"}>Mehet</Button>
             {fileterTasks}
            </Form> 
           </div>

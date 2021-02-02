@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import './App.css';
+import './css/style.css';
 import HomePage from './Pages/MatTasks';
 import AddMatAlapTask from './Pages/AddMatAlapTask';
 import AddGeneralTask from './Pages/AddGeneralTask';
@@ -9,7 +10,8 @@ import S3FileUpload from 'react-s3';
 import background from './images/background.jpg';
 import AltalanosPage from './Pages/AltalanosTasks';
 import VeletlenGeneralTask from './Pages/VeletlenGeneralTask';
-import {Nav,NavDropdown} from 'react-bootstrap';
+import {Nav,NavDropdown,Alert} from 'react-bootstrap';
+import loading_img from './images/loading.gif';
 import {Container,Row,Col} from 'react-bootstrap';
 import {
   BrowserRouter as Router,
@@ -45,21 +47,22 @@ class App extends Component {
         source : "",
         time : 0,
         difficulty : 0,
-        isLoading: false,
+        isLoading: true,
+        isLoadingMat: true, 
         solution_showed : false,
         solution_stepbystep_showed : false,
+        editTask : false
     }
-  }
-  componentDidMount(){
     this.loadData();
+    
   }
     loadData = async () => {
-      this.setState({ isLoading: true })
+      //this.setState({ isLoading: true })
 
       await api.getAllMatAlapTasks().then(MatAlapTasks => {
           this.setState({
             MatAlapTasks: MatAlapTasks.data.data,
-              isLoading: false,
+            isLoadingMat: false,
           })
       });
       await api.getAllGeneralTasks().then(GeneralTasks => {
@@ -69,6 +72,9 @@ class App extends Component {
         })
     });
     };
+    editStart = () => {
+      this.setState({editTask : true});
+    }
       myChangeHandler = (event) => {//used on admin page to login
         let nam = event.target.name;
         let val = event.target.value;
@@ -166,15 +172,18 @@ class App extends Component {
         }
         const taskDesc = await S3FileUpload.uploadFile(this.state.task_description, config);
         const solutation_short = await S3FileUpload.uploadFile(this.state.solution, config);
+        S3FileUpload.
         this.setState({task_description : taskDesc.location, solution : solutation_short.location });
       };
   render() {
+    const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
+    const TwoCard = "";
     return (
     <div className="App"  style={{backgroundImage : "url("+background+")", backgroundAttachment: "fixed", minHeight: 1000}}  >
       <Router>
       <Nav defaultActiveKey="/home" as="ul" className="bg-dark navbar-collapse">
   <Nav.Item as="li">
-    <Nav.Link>Uni_learning</Nav.Link>
+    <Nav.Link><Link to="/">Uni_learning</Link></Nav.Link>
   </Nav.Item>
   <NavDropdown title="Matematika alapok" id="collasible-nav-dropdown">
         <NavDropdown.Item><Link to="/MatAlapok">Mat Alapok </Link></NavDropdown.Item>
@@ -194,6 +203,12 @@ class App extends Component {
             <Row>
             <Col>
       <Switch>  
+          <Route exact path="/">
+          <div className={"bg-light min-vh-100 p-5 rounded"}>
+            {this.state.isLoadingMat ? Loading : <Alert variant="success">Matek feladatok betöltve</Alert> }
+            {this.state.isLoading ? Loading : <Alert variant="success">Általános feladatok betöltve</Alert> }
+          </div>
+          </Route>
           <Route exact path="/addMatek">
           <AddMatAlapTask myChangeHandler={this.myChangeHandler} submitMatAlap={this.submitMatAlap} onFileChange={this.onFileChange} onFileChangeTaskDesc={this.onFileChangeTaskDesc} onFileChangeSolutation={this.onFileChangeSolutation} MatAlapTasks={this.state.MatAlapTasks}/>           
           </Route>
@@ -201,10 +216,10 @@ class App extends Component {
           <AddGeneralTask myChangeHandler={this.myChangeHandler} submitMatAlap={this.submitGeneralTask} onFileChange={this.onFileChange} onFileChangeTaskDesc={this.onFileChangeTaskDesc} onFileChangeSolutation={this.onFileChangeSolution} GeneralTasks={this.state.GeneralTasks}/>           
           </Route>          
           <Route path="/MatAlapok">
-            <HomePage MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
+            <HomePage  editStart={this.editStart} editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
           </Route>
           <Route path="/veletlen">
-            <VeletlenPage MatAlapTasks={this.state.MatAlapTasks} />
+            <VeletlenPage MatAlapTasks={this.state.MatAlapTasks}/>
           </Route>
           <Route path="/AltalanosTasks">
             <AltalanosPage AltanaosTasks={this.state.GeneralTasks} isLoading={this.state.isLoading} />

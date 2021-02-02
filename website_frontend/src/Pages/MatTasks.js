@@ -1,6 +1,8 @@
 import React from 'react';
 import MatAlapCard from '../Components/MatAlapCard';
 import {Form,Button} from 'react-bootstrap';
+import loading_img from '../images/loading.gif';
+
 
 
 class HomePage extends React.Component {
@@ -63,8 +65,9 @@ class HomePage extends React.Component {
                 <MatAlapCard topic={MatalapTask.topic} task_type={MatalapTask.task_type} task_image={MatalapTask.task_description} task_solution={MatalapTask.solutation} task_solution_stepbystep={MatalapTask.solutation_stepbystep}  />
             )
         }).reverse();
+        const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
         return(
-            <div className='bg-light p-5 rounded'>
+            <div className='bg-light min-vh-100 p-5 rounded'>
                 <Form.Group controlId="Matalap_Category">
               <Form.Label>Milyen kategóriájú feladatok?</Form.Label>
               <Form.Control as="select" name="Matalap_Category" onChange={this.selectedCategory}>
@@ -73,7 +76,7 @@ class HomePage extends React.Component {
                 {Option_Cat}  
               </Form.Control>
                 </Form.Group>
-                {MatTaskCard}
+                {this.props.isLoadingMat ?  Loading : MatTaskCard}
             </div>   
         )}
 }
