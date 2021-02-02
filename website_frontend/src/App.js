@@ -49,8 +49,9 @@ class App extends Component {
         solution_showed : false,
         solution_stepbystep_showed : false,
     }
+  }
+  componentDidMount(){
     this.loadData();
-    
   }
     loadData = async () => {
       this.setState({ isLoading: true })
