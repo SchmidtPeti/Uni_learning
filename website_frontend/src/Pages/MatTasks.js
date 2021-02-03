@@ -1,6 +1,6 @@
 import React from 'react';
 import MatAlapCard from '../Components/MatAlapCard';
-import {Form,Button} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import loading_img from '../images/loading.gif';
 
 
@@ -39,6 +39,9 @@ class HomePage extends React.Component {
             if(Category!==""){
         return (<option key={Category} value={Category}>{Category}</option>);
             }
+            else{
+                return '';
+            }
         });
         const MAX_FELADATOK_ALAPBOL=10;
         let feladatokSzamolo = 0;
@@ -55,7 +58,7 @@ class HomePage extends React.Component {
                         feladatokSzamolo++;
                     }
                 }
-                else if(MatAlapTasks[i].topic==this.state.current_category) {
+                else if(MatAlapTasks[i].topic===this.state.current_category) {
                     filtered_MatAlapTasks.push(MatAlapTasks[i]);
                 }
         }

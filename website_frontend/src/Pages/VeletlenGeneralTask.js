@@ -60,6 +60,9 @@ class VeletlenGeneralTask extends Component{
             if(SubjectName!==""){
         return (<option>{SubjectName}</option>);
             }
+            else{
+                return "";
+            }
         });
         const RandomTasks = randomTasksNumber.length>0 ? randomTasksNumber.map((tasknumber)=>{
             return (<GeneralCard AltanaosTask={FilerTasks[tasknumber]}  />);

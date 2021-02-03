@@ -1,6 +1,6 @@
 import React from 'react';
 import GeneralCard from '../Components/GeneralCard';
-import {Form,Button} from 'react-bootstrap';
+import {Form} from 'react-bootstrap';
 import loading_img from '../images/loading.gif';
 
 
@@ -32,8 +32,11 @@ import loading_img from '../images/loading.gif';
         }); 
         const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
         const Option_subName = GeneralTaskSubjectNames.map((SubjectName) =>{
-            if(SubjectName!=""){
+            if(SubjectName!==""){
         return (<option key={SubjectName} value={SubjectName}>{SubjectName}</option>);
+            }
+            else{
+                return '';
             }
         });
         const MAX_ALTALNOS_AZ_ELEJEN=10;
@@ -45,7 +48,7 @@ import loading_img from '../images/loading.gif';
             if(this.state.CurrentSubject==="*"){
                 filtered_AltalanosTasks.push(AltanaosTasks[i]);
             }
-            else if(AltanaosTasks[i].subject_name==this.state.CurrentSubject) {
+            else if(AltanaosTasks[i].subject_name===this.state.CurrentSubject) {
                 filtered_AltalanosTasks.push(AltanaosTasks[i]);
             }
             else if(this.state.CurrentSubject==="-"&&maxAltCounter<MAX_ALTALNOS_AZ_ELEJEN){

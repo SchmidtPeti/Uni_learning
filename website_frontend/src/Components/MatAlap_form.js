@@ -1,106 +1,91 @@
 import React from 'react';
-import {Form,Button} from 'react-bootstrap';
+import MatFormHtml from './Mat_Form_html';
+import S3FileUpload from 'react-s3';
+import api from '../api/api';
+import loading_img from '../images/loading.gif';
 
 
 
-const MatAlap_form = ({myChangeHandler,submitMatAlap,onFileChange,onFileChangeTaskDesc,onFileChangeSolutation,MatAlapTasks}) => {
-  let HasCateg = [];
-  const MatAlapCategories = MatAlapTasks.map((MatAlapTask,i)=>{
-          if(!HasCateg.includes(MatAlapTasks[i].topic)){
-              HasCateg.push(MatAlapTasks[i].topic);
-              return MatAlapTask.topic;
-          }
-          else{
-              return "";
-          }
-  }); 
-  const Option_Cat = MatAlapCategories.map((Category) =>{
-      if(Category!==""){
-          return (<li key={Category}>{Category}</li>);
+class MatAlapForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      task_description : null,
+      task_type : "",
+      topic : "",
+      level : "",
+      solutation : null,
+      major : "",
+      solutation_stepbystep : null,
+      solutation_stepbystp_server_location : "",
+      solutation_by : "",
+      solutation_by_credit: "",
+      subject_name : "",
+      semester : "",
+      university: "",
+      solution_by : "",
+      solution_by_credit : "",
+      solution: null,
+      source : "",
+      time : 0,
+      difficulty : 0
+    }
+  }
+  uploadFileToS3 = async () => {
+    const config = {
+      bucketName: 'unilearning',
+      dirName: 'MatAlap_solutation',
+      region: 'eu-central-1',
+      accessKeyId: process.env.REACT_APP_Bucket_ID,
+      secretAccessKey: process.env.REACT_APP_Bucket_Key,
+    }
+    const file_loc = await S3FileUpload.uploadFile(this.state.solutation_stepbystep, config);
+    const taskDesc = await S3FileUpload.uploadFile(this.state.task_description, config);
+    const solutation_short = await S3FileUpload.uploadFile(this.state.solutation, config);
+    this.setState({task_description : taskDesc.location,solutation_stepbystep : file_loc.location, solutation : solutation_short.location });
+  };
+  submitMatAlap = async (event) =>{
+    event.preventDefault();
+    await this.uploadFileToS3(); //wrong input can t be fatal
+
+    const {task_description,task_type,topic,level,solutation,major,solutation_stepbystep,solutation_by,solutation_by_credit,source,time,difficulty} = this.state;
+    const playload = {task_description,task_type,topic,level,solutation,major,solutation_stepbystep,solutation_by,solutation_by_credit,source,time,difficulty};
+    console.log(playload);
+    api.insertMatAlapTask(playload).then(() => console.log("success")).catch(error => console.log(error));
+  }
+  myChangeHandler = (event) => {
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({[nam]: val});
+  };
+  onFileChangeTaskDesc = event => {
+    this.setState({ task_description: event.target.files[0] }); 
+  }
+  onFileChangeSolutation= event => {
+    this.setState({ solutation: event.target.files[0] }); 
+  }
+  onFileChange = event => { 
+     
+    this.setState({ solutation_stepbystep: event.target.files[0] }); 
+   
+  }; 
+  render() {
+    let HasCateg = [];
+    const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
+    if(this.props.MatAlapTasks.length>0){
+    const MatAlapCategories = this.props.MatAlapTasks.map((MatAlapTask,i)=>{
+      if(!HasCateg.includes(this.props.MatAlapTasks[i].topic)){
+          HasCateg.push(this.props.MatAlapTasks[i].topic);
+          return MatAlapTask.topic;
       }
-  });
-    return (
-      <div className='whole_form'>
-        <Form className="bg-light p-3">
-        <Form.Group>
-          <Form.File id="taskDescription_id" label="A feladat leírása..." name="task_description" onChange={onFileChangeTaskDesc} />
-        </Form.Group>
-        <Form.Group controlId="task_type_id">
-          <Form.Label>Milyen típusú feladat?</Form.Label>
-          <Form.Control as="select" name="task_type" onChange={myChangeHandler}>
-          <option>Please select</option>
-            <option>Elmélet</option>
-            <option>Gyakorlat</option>
-          </Form.Control>
-        </Form.Group>
-        <Form.Group controlId="topic_id">
-          <Form.Label>Téma</Form.Label>
-          <Form.Control type="text" placeholder="Milyen témákörben a feladat(Algebra,Valőszínűség)" name="topic" onChange={myChangeHandler}/>
-        </Form.Group>
-        <Form.Group controlId="topic_examples">
-          Ezek már voltak
-          <ul>{Option_Cat}</ul>
-          
-        </Form.Group>
-        <Form.Group controlId="task_level_id">
-          <Form.Label>Milyen szinten vannak a kérdések?</Form.Label>
-          <Form.Control as="select" name="level" onChange={myChangeHandler} >
-          <option>Please select</option>
-            <option>Középiskola</option>
-            <option>Bsc</option>
-            <option>Msc</option>
-          </Form.Control>
-        </Form.Group>
-        <Form.Group controlId="solutation_id">
-        <Form.Label>Megoldás</Form.Label>
-        <Form.File id="taskDescription_id" label="Megoldás röviden" name="solutation" onChange={onFileChangeSolutation} />
-        </Form.Group>
-        <Form.Group controlId="major_id">
-          <Form.Label>Szak</Form.Label>
-          <Form.Control type="text" placeholder="Milyen szak előadásán fordult elő?" name="major" onChange={myChangeHandler} />
-        </Form.Group>
-        <Form.Group>
-          <Form.File id="stepbystep_img" label="Egy kép a részletes megoldásról" name="solutation_stepbystep" onChange={onFileChange} />
-        </Form.Group>
-        <Form.Group controlId="source_id">
-          <Form.Label>Forrás</Form.Label>
-          <Form.Control type="text" name="source" placeholder="Egy link ahol a feladat volt(legjobb ha valamilyen egyetemes oldal elte./corvinus.)" onChange={myChangeHandler} />
-        </Form.Group>
-        <Form.Group controlId="solutation_by_id">
-          <Form.Label>Ki készítette a megoldást?</Form.Label>
-          <Form.Control type="text" name="solutation_by" placeholder="Csak egy név pl Kozsik Zoltán" onChange={myChangeHandler}/>
-        </Form.Group>
-        <Form.Group controlId="solutation_by_credit_id">
-          <Form.Label>Hol elérhető a megoldó?</Form.Label>
-          <Form.Control type="text" name="solutation_by_credit" placeholder="A legjobb valamilyen weblap" onChange={myChangeHandler} />
-        </Form.Group>
-      <Form.Group controlId="hardness_id">
-              <Form.Label>Mennyi időt vett a fel feladat(az egységek relativitást jelölnek)</Form.Label>
-              <Form.Control as="select" name="time" onChange={myChangeHandler}>
-                <option>Please select</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>         
-              </Form.Control>
-            </Form.Group>
-      <Form.Group controlId="hardness_id">
-              <Form.Label>Milyen nehéznek itéled a feladatot(nagyobb nehezebb)</Form.Label>
-              <Form.Control as="select" name="difficulty" onChange={myChangeHandler} >
-              <option>Please select</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>         
-              </Form.Control>
-            </Form.Group>
-      <Button type="submit" className="mb-2" onClick={submitMatAlap}>
-            Feltöltés!
-      </Button>
-      </Form>
-      </div>
-    )
+      else{
+          return "";
+      }
+    }); 
+    return( <MatFormHtml myChangeHandler={this.myChangeHandler} submitMatAlap={this.submitMatAlap} onFileChange={this.onFileChange} onFileChangeTaskDesc={this.onFileChangeTaskDesc} onFileChangeSolutation={this.onFileChangeSolutation}  MatAlapCategories={MatAlapCategories} />)}
+    else{
+      return Loading;
+    }
+  }
 }
-export default MatAlap_form;
+export default MatAlapForm;

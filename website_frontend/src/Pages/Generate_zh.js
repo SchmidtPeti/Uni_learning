@@ -1,7 +1,7 @@
 import React from 'react';
 import MatAlapCard from '../Components/MatAlapCard'
 
-const Generate_zh = ({Generated_matalap_list}) =>{
+const GenerateZh = ({Generated_matalap_list}) =>{
     console.log(Generated_matalap_list);
     const items =
         Generated_matalap_list.map(element => {
@@ -13,4 +13,4 @@ const Generate_zh = ({Generated_matalap_list}) =>{
         </div>    
     )
 }
-export default Generate_zh;
+export default GenerateZh;

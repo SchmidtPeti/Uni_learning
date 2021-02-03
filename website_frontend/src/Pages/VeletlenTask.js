@@ -56,7 +56,10 @@ class VeletlenPage extends Component{
         }); 
         const Option_Cat = MatAlapCategories.map((Category) =>{
             if(Category!==""){
-        return (<option>{Category}</option>);
+                return (<option>{Category}</option>);
+            }
+            else{
+                return "";
             }
         });
          //ne égjen ki 100-as nagyságoknál
