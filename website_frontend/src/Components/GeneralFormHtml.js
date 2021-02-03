@@ -21,7 +21,6 @@ const GeneralFormHtml = ({myChangeHandler,submitGeneralTask,onFileChangeTaskDesc
             <Form.Control type="text" placeholder="Milyen témákörben a feladat(Algebra,Valőszínűség)" name="topic" onChange={myChangeHandler}/>
           </Form.Group>
           <Form.Group controlId="solution_id">
-          <Form.Label>Megoldás</Form.Label>
           <Form.File id="taskDescription_id" label="Megoldás röviden" name="solution" onChange={onFileChangeSolutation} />
           </Form.Group>
           <Form.Group controlId="major_id">

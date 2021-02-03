@@ -37,8 +37,6 @@ class App extends Component {
     
   }
     loadData = async () => {
-      //this.setState({ isLoading: true })
-
       await api.getAllMatAlapTasks().then(MatAlapTasks => {
           this.setState({
             MatAlapTasks: MatAlapTasks.data.data,

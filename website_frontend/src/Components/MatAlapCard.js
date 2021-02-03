@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {Card,Button} from 'react-bootstrap';
+import EditMatcard from './editMatcard';
 
 class MatAlapCard extends Component{
     constructor(props){
@@ -10,8 +11,16 @@ class MatAlapCard extends Component{
             editShow: false,
         };
     }
+    myChangeHandler = (event) => {
+        let nam = event.target.name;
+        let val = event.target.value;
+        this.setState({[nam]: val});
+    };
+    Submitedit = () => {
+        
+    }
     onShowEdit = () => {
-        this.setState({editShow : true});
+        this.setState({editShow : !this.state.editShow});
     }
     onShowSolutation = () => {
         this.setState({solution_showed : true});
@@ -24,6 +33,9 @@ class MatAlapCard extends Component{
     }
     componentWillReceiveProps(){
         this.setHiddenAnswers();
+    }
+    editMatTaskSolution = () => {
+
     }
     render() {
         const {topic,task_type,task_image,task_solution,task_solution_stepbystep} = this.props;
@@ -46,13 +58,14 @@ class MatAlapCard extends Component{
               {solution_stepbystep_showed? <Card.Img variant="bottom" src={task_solution_stepbystep} /> : <Button onClick={this.onSolution_stepbystep}>Megoldás részletesen</Button>}
               </Card.Body>
               <Card.Body>
-                    <Card.Link onClick={this.onShowEdit} ><Button classsName="warning">Szerkeztés</Button></Card.Link>
+              {this.state.editShow ?<Card.Link onClick={this.onShowEdit} ><Button classsName="Danger">Bezárás</Button></Card.Link> :<Card.Link onClick={this.onShowEdit} ><Button classsName="warning">Szerkeztés</Button></Card.Link>}
                     <Card.Link href="#">Tördlés</Card.Link>
                 </Card.Body>
                 <Card.Body>
 {this.state.editShow ? 
-<h1>Edit</h1>:
-                      <div></div>}
+                    <div><EditMatcard Submitedit={this.Submitedit} handler={this.myChangeHandler} topic={topic} task_type={task_type} task_image={task_image} task_solution={task_solution} task_solution_stepbystep={task_solution_stepbystep} editMatTaskSolution={this.editMatTaskSolution}/></div>
+                     : "valami"
+                    }
                 </Card.Body>
             </Card>
         )

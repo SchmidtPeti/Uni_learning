@@ -43,7 +43,6 @@ const MatFormHtml = ({myChangeHandler,submitMatAlap,onFileChange,onFileChangeTas
         </Form.Control>
       </Form.Group>
       <Form.Group controlId="solutation_id">
-      <Form.Label>Megoldás</Form.Label>
       <Form.File id="taskDescription_id" label="Megoldás röviden" name="solutation" onChange={onFileChangeSolutation} />
       </Form.Group>
       <Form.Group controlId="major_id">
