@@ -63,12 +63,21 @@ class HomePage extends React.Component {
                 }
         }
         filtered_MatAlapTasks.reverse();
-        const MatTaskCard = filtered_MatAlapTasks.map((MatalapTask)=>{
+        const MatTaskCard = filtered_MatAlapTasks.map((matalapTask)=>{
             return (
-                <MatAlapCard topic={MatalapTask.topic} task_type={MatalapTask.task_type} task_image={MatalapTask.task_description} task_solution={MatalapTask.solutation} task_solution_stepbystep={MatalapTask.solutation_stepbystep}  />
+                <MatAlapCard 
+                loadData={this.props.loadData}  
+                MatalapTask={matalapTask} 
+                id={matalapTask._id} 
+                topic={matalapTask.topic} 
+                task_type={matalapTask.task_type} 
+                task_image={matalapTask.task_description} 
+                task_solution={matalapTask.solutation} 
+                task_solution_stepbystep={matalapTask.solutation_stepbystep}  />
             )
         }).reverse();
         const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
+        if(MatAlapTasks.length>0){
         return(
             <div className='bg-light min-vh-100 p-5 rounded'>
                 <Form.Group controlId="Matalap_Category">
@@ -79,8 +88,15 @@ class HomePage extends React.Component {
                 {Option_Cat}  
               </Form.Control>
                 </Form.Group>
-                {this.props.isLoadingMat ?  Loading : MatTaskCard}
+                {MatTaskCard}
             </div>   
         )}
+        else{
+            return (
+            <div className='bg-light min-vh-100 p-5 rounded'>
+             {Loading}
+            </div>)
+        }
+    }
 }
 export default HomePage;

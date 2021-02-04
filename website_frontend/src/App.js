@@ -37,6 +37,7 @@ class App extends Component {
     
   }
     loadData = async () => {
+      this.setState({MatAlapTasks :[],GeneralTasks:[]});
       await api.getAllMatAlapTasks().then(MatAlapTasks => {
           this.setState({
             MatAlapTasks: MatAlapTasks.data.data,
@@ -124,13 +125,13 @@ class App extends Component {
           </div>
           </Route>
           <Route exact path="/addMatek">
-          <MatAlapForm MatAlapTasks={this.state.MatAlapTasks} />
+          <MatAlapForm loadData={this.loadData} MatAlapTasks={this.state.MatAlapTasks} />
           </Route>
           <Route exact path="/addEgyetemiTantargy">
           <GeneralForm GeneralTasks={this.state.GeneralTasks}/>
           </Route>          
           <Route path="/MatAlapok">
-            <HomePage  editStart={this.editStart} editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
+            <HomePage loadData={this.loadData} editStart={this.editStart} editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
           </Route>
           <Route path="/veletlen">
             <VeletlenPage MatAlapTasks={this.state.MatAlapTasks}/>

@@ -13,9 +13,6 @@ const MatFormHtml = ({myChangeHandler,submitMatAlap,onFileChange,onFileChangeTas
     return (
        <div>   
       <Form className="bg-light p-3">
-      <Form.Group>
-        <Form.File id="taskDescription_id" label="A feladat leírása..." name="task_description" onChange={onFileChangeTaskDesc} />
-      </Form.Group>
       <Form.Group controlId="task_type_id">
         <Form.Label>Milyen típusú feladat?</Form.Label>
         <Form.Control as="select" name="task_type" onChange={myChangeHandler}>
@@ -42,15 +39,18 @@ const MatFormHtml = ({myChangeHandler,submitMatAlap,onFileChange,onFileChangeTas
           <option>Msc</option>
         </Form.Control>
       </Form.Group>
+      <Form.Group>
+        <Form.File id="taskDescription_id" label="A feladat leírása..." name="task_description" onChange={onFileChangeTaskDesc} />
+      </Form.Group>
       <Form.Group controlId="solutation_id">
       <Form.File id="taskDescription_id" label="Megoldás röviden" name="solutation" onChange={onFileChangeSolutation} />
+      </Form.Group>
+      <Form.Group>
+        <Form.File id="stepbystep_img" label="Egy kép a részletes megoldásról" name="solutation_stepbystep" onChange={onFileChange} />
       </Form.Group>
       <Form.Group controlId="major_id">
         <Form.Label>Szak</Form.Label>
         <Form.Control type="text" placeholder="Milyen szak előadásán fordult elő?" name="major" onChange={myChangeHandler} />
-      </Form.Group>
-      <Form.Group>
-        <Form.File id="stepbystep_img" label="Egy kép a részletes megoldásról" name="solutation_stepbystep" onChange={onFileChange} />
       </Form.Group>
       <Form.Group controlId="source_id">
         <Form.Label>Forrás</Form.Label>
@@ -86,7 +86,7 @@ const MatFormHtml = ({myChangeHandler,submitMatAlap,onFileChange,onFileChangeTas
               <option>5</option>         
             </Form.Control>
           </Form.Group>
-    <Button type="submit" className="mb-2" onClick={submitMatAlap}>
+    <Button type="submit" className="mb-2" onClick={submitMatAlap} block>
           Feltöltés!
     </Button>
     </Form>

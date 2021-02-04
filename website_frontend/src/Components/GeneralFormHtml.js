@@ -79,7 +79,7 @@ const GeneralFormHtml = ({myChangeHandler,submitGeneralTask,onFileChangeTaskDesc
                   <option>5</option>         
                 </Form.Control>
               </Form.Group>
-        <Button type="submit" className="mb-2" onClick={submitGeneralTask}>
+        <Button type="submit" className="mb-2" onClick={submitGeneralTask} block>
               Feltöltés!
         </Button>
         </Form>
