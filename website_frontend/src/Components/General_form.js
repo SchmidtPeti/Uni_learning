@@ -35,7 +35,7 @@ class GeneralForm extends React.Component{
     this.setState({ task_description: event.target.files[0] }); 
   }
   onFileChangeSolutation= event => {
-    this.setState({ solutation: event.target.files[0] }); 
+    this.setState({ solution: event.target.files[0] }); 
   }
   uploadFileToS3_s = async () => {
     const config = {
@@ -55,7 +55,8 @@ class GeneralForm extends React.Component{
     const {task_description,task_type,topic,solution,major,solution_by,solution_by_credit,subject_name,semester,university,source,time,difficulty} = this.state;
     const playload = {task_description,task_type,topic,solution,major,subject_name,semester,university,solution_by,solution_by_credit,source,time,difficulty};
     console.log(playload);
-    api.insertGeneralTask(playload).then(() => console.log("success")).catch(error => console.log(error));
+    await api.insertGeneralTask(playload).then(() => console.log("success")).catch(error => console.log(error));
+    this.props.loadData();
   }
   myChangeHandler = (event) => {
     let nam = event.target.name;
@@ -63,7 +64,6 @@ class GeneralForm extends React.Component{
     this.setState({[nam]: val});
   };
     render(){
-      //myChangeHandler,submitGeneralTask,onFileChangeTaskDesc,onFileChangeSolutation,GeneralTasks,Option_subName
         const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
         if(this.props.GeneralTasks.length>0){
         let HasSubjectName = [];
@@ -93,5 +93,4 @@ class GeneralForm extends React.Component{
       }
     }
 } 
-//({myChangeHandler,submitMatAlap,onFileChange,onFileChangeTaskDesc,onFileChangeSolutation,GeneralTasks})
 export default GeneralForm;

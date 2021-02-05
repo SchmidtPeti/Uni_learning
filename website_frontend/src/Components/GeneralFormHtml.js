@@ -5,9 +5,6 @@ const GeneralFormHtml = ({myChangeHandler,submitGeneralTask,onFileChangeTaskDesc
     return (
         <div className='whole_form'>
           <Form className="bg-light p-3">
-          <Form.Group>
-            <Form.File id="taskDescription_id" label="A feladat leírása..." name="task_description" onChange={onFileChangeTaskDesc} />
-          </Form.Group>
           <Form.Group controlId="task_type_id">
             <Form.Label>Milyen típusú feladat?</Form.Label>
             <Form.Control as="select" name="task_type" onChange={myChangeHandler}>
@@ -19,6 +16,9 @@ const GeneralFormHtml = ({myChangeHandler,submitGeneralTask,onFileChangeTaskDesc
           <Form.Group controlId="topic_id">
             <Form.Label>Téma</Form.Label>
             <Form.Control type="text" placeholder="Milyen témákörben a feladat(Algebra,Valőszínűség)" name="topic" onChange={myChangeHandler}/>
+          </Form.Group>
+          <Form.Group>
+            <Form.File id="taskDescription_id" label="A feladat leírása..." name="task_description" onChange={onFileChangeTaskDesc} />
           </Form.Group>
           <Form.Group controlId="solution_id">
           <Form.File id="taskDescription_id" label="Megoldás röviden" name="solution" onChange={onFileChangeSolutation} />

@@ -42,23 +42,22 @@ import loading_img from '../images/loading.gif';
         const MAX_ALTALNOS_AZ_ELEJEN=10;
         let maxAltCounter=0;
         let filtered_AltalanosTasks = [];
-        let az_elso_kidobos_lista = AltanaosTasks;
-        az_elso_kidobos_lista.reverse();
-        for(let i=0;i<AltanaosTasks.length;i++){
+        let az_elso_kidobos_lista = AltanaosTasks.reverse();
+        for(let i=0;i<az_elso_kidobos_lista.length;i++){
             if(this.state.CurrentSubject==="*"){
-                filtered_AltalanosTasks.push(AltanaosTasks[i]);
+                filtered_AltalanosTasks.push(az_elso_kidobos_lista[i]);
             }
             else if(AltanaosTasks[i].subject_name===this.state.CurrentSubject) {
-                filtered_AltalanosTasks.push(AltanaosTasks[i]);
+                filtered_AltalanosTasks.push(az_elso_kidobos_lista[i]);
             }
             else if(this.state.CurrentSubject==="-"&&maxAltCounter<MAX_ALTALNOS_AZ_ELEJEN){
                 filtered_AltalanosTasks.push(az_elso_kidobos_lista[i]);    
                 maxAltCounter++;
             }
         }
-        const AltalanosTasks = filtered_AltalanosTasks.map((i,AltanaosTask)=>{
-            return (<GeneralCard key={i} AltanaosTask={i}/>)
-        }).reverse();
+        const AltalanosTasks = filtered_AltalanosTasks.map((AltanaosTask,i)=>{
+            return (<GeneralCard loadData={this.props.loadData} AltanaosTask={AltanaosTask} task_description={AltanaosTask.task_description} solution={AltanaosTask.solution} />)
+        });
         return (<div className={"bg-light min-vh-100 p-5 rounded "}>
                             <Form.Group controlId="AltalanosSubject">
               <Form.Label>Melyik tantárgy?</Form.Label>

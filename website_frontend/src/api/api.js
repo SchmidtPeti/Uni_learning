@@ -11,6 +11,8 @@ export const updateMatTask = (id,payload) => api.put(`/updateMatTask/${id}`,payl
 export const deleteMatTask = (id) => api.delete(`/deleteMatTask/${id}`)
 export const insertGeneralTask = payload => api.post(`/addGeneralTask`,payload)
 export const getAllGeneralTasks = () => api.get(`/getAllGeneralTasks`)
+export const updateGeneralTask = (id,payload) => api.put(`/updateGeneralTask/${id}`,payload)
+export const deleteGeneralTask = (id,payload) => api.delete(`deleteGeneralTask/${id}`,payload)
 
 const apis = {
     insertMatAlapTask,
@@ -19,6 +21,8 @@ const apis = {
     deleteMatTask,
     insertGeneralTask,
     getAllGeneralTasks,
+    updateGeneralTask,
+    deleteGeneralTask
 }
 
 export default apis

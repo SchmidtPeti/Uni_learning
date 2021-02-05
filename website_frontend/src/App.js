@@ -128,7 +128,7 @@ class App extends Component {
           <MatAlapForm loadData={this.loadData} MatAlapTasks={this.state.MatAlapTasks} />
           </Route>
           <Route exact path="/addEgyetemiTantargy">
-          <GeneralForm GeneralTasks={this.state.GeneralTasks}/>
+          <GeneralForm  loadData={this.loadData} GeneralTasks={this.state.GeneralTasks}/>
           </Route>          
           <Route path="/MatAlapok">
             <HomePage loadData={this.loadData} editStart={this.editStart} editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
@@ -137,7 +137,7 @@ class App extends Component {
             <VeletlenPage MatAlapTasks={this.state.MatAlapTasks}/>
           </Route>
           <Route path="/AltalanosTasks">
-            <AltalanosPage AltanaosTasks={this.state.GeneralTasks} isLoading={this.state.isLoading} />
+            <AltalanosPage loadData={this.loadData} AltanaosTasks={this.state.GeneralTasks} isLoading={this.state.isLoading} />
           </Route>  
           <Route path="/VeletlenAltalanosTaks">
             <VeletlenGeneralTask GeneralTasks={this.state.GeneralTasks} />

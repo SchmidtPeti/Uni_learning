@@ -15,6 +15,13 @@ class MatAlapCard extends Component{
             item_id : 0,
             topic : '',
             task_type : '',
+            solutation_by : '',
+            solutation_by_credit : '',
+            source : '',
+            major: '',
+            level: '',
+            difficulty : 0,
+            time : 0,
             taskImageChanged: false,
             task_image : '',
             taskImageSolutionChanged : false,
@@ -80,7 +87,6 @@ class MatAlapCard extends Component{
             this.setState({ task_solution_stepbystep : solutionBy.location});
             console.log("Kép megváltoztatva");
         }
-        //ezeket kell külön helyre berakni
       };
     taskImageChange = (event) => {
         if(event.target.files[0]){
@@ -162,8 +168,9 @@ class MatAlapCard extends Component{
             await this.props.loadData(); 
         }
         else{
-            console.log("Egy törlás meg lett szakítva")
+            console.log("Egy törlés meg lett szakítva")
         }
+        await this.props.loadData();
     }
     onShowEdit = () => {
         this.setState({editShow : !this.state.editShow});
