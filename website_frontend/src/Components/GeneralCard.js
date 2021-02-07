@@ -151,11 +151,17 @@ class GeneralCard extends Component{
         await this.props.loadData();
     }
     render() {
+        const {isAdmin} = this.props;
         const {topic,task_type,task_description,solution,subject_name,major,semester,source,solution_by,solution_by_credit,difficulty,university,time} = this.props.AltanaosTask;
         const id = this.state.item_id;
         return(
             <Card style={{ width: '100%'}} className="mx-auto shadow-sm p-3 mb-5 bg-white" fluid>
+                { isAdmin ? 
             <Button onClick={this.submitDetelte} variant='dark' className='p-10' block>Törlés</Button>
+            :
+            ""
+                }
+                <hr />
             <Card.Body>
                   <Card.Title>{topic}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{task_type} | {major}/{subject_name}/{semester} félév</Card.Subtitle>
@@ -167,7 +173,7 @@ class GeneralCard extends Component{
             </Card.Body>
             <Card.Body bg="dark">
               <hr />
-              {this.state.editShow ?<Card.Link onClick={this.onShowEdit} ><Button classsName="danger" variant="danger" block>Bezárás</Button></Card.Link> :<Card.Link onClick={this.onShowEdit} ><Button variant="warning" block>Szerkeztés</Button></Card.Link>}
+              {isAdmin ? (this.state.editShow ?<Card.Link onClick={this.onShowEdit} ><Button classsName="danger" variant="danger" block>Bezárás</Button></Card.Link> :<Card.Link onClick={this.onShowEdit} ><Button variant="warning" block>Szerkeztés</Button></Card.Link>) : ""}
             {this.state.editShow ? 
                     <div><EditGeneralcard 
                     Submitedit={this.Submitedit} 

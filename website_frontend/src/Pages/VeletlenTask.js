@@ -67,7 +67,17 @@ class VeletlenPage extends Component{
         //const RandomTask = this.state.FilerTasks[Math.floor(Math.random()*max)];
         const fileterTasks = (max > 0) ? 
         RandomMatTaskNumber.map((taskIndex) => {
-            return (<MatAlapCard topic={FilerTasks[taskIndex].topic} task_type={FilerTasks[taskIndex].task_type} task_image={FilerTasks[taskIndex].task_description} task_solution={FilerTasks[taskIndex].solutation} task_solution_stepbystep={FilerTasks[taskIndex].solutation_stepbystep}/>);
+            return (
+                <MatAlapCard 
+                isAdmin={this.props.isAdmin}
+                loadData={this.props.loadData}  
+                MatalapTask={FilerTasks[taskIndex]} 
+                id={FilerTasks[taskIndex]._id} 
+                topic={FilerTasks[taskIndex].topic} 
+                task_type={FilerTasks[taskIndex].task_type} 
+                task_image={FilerTasks[taskIndex].task_description} 
+                task_solution={FilerTasks[taskIndex].solutation} 
+                task_solution_stepbystep={FilerTasks[taskIndex].solutation_stepbystep}  />)
         })
         :
         "Nincs még kijelölve kategória";
@@ -85,7 +95,7 @@ class VeletlenPage extends Component{
           <Form.Group>
             <Form.Control type="number" onChange={this.onChangeDb} placeholder="Hány darabot?" min={0} value={this.state.db} max={this.state.max} />
             </Form.Group>
-          <Button onClick={this.onClickFiler} className={"btn-lg btn-block"}>Mehet</Button>
+          <Button onClick={this.onClickFiler} className={"btn-lg mb-3 btn-block"}>Mehet</Button>
             {fileterTasks}
             </Form>
           </div>

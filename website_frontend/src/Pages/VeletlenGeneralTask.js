@@ -65,7 +65,7 @@ class VeletlenGeneralTask extends Component{
             }
         });
         const RandomTasks = randomTasksNumber.length>0 ? randomTasksNumber.map((tasknumber)=>{
-            return (<GeneralCard AltanaosTask={FilerTasks[tasknumber]}  />);
+            return (<GeneralCard isAdmin={this.props.isAdmin} loadData={this.props.loadData} AltanaosTask={FilerTasks[tasknumber]} task_description={FilerTasks[tasknumber].task_description} solution={FilerTasks[tasknumber].solution} />)
         }) : (<h1>Még nincs variáció</h1>);
         const fileterTasks = (randomTasksNumber.length > 0) ? 
         <div>
@@ -86,7 +86,7 @@ class VeletlenGeneralTask extends Component{
           <Form.Group>
             <Form.Control type="number" onChange={this.onChangeDb} placeholder="Hány darabot?" min={0} value={this.state.db} max={this.state.max} />
             </Form.Group>
-          <Button onClick={this.onClickFiler} className={"btn-lg btn-block"}>Mehet</Button>
+          <Button onClick={this.onClickFiler} className={"btn-lg mb-3 btn-block"}>Mehet</Button>
             {fileterTasks}
            </Form> 
           </div>

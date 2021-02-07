@@ -56,7 +56,7 @@ import loading_img from '../images/loading.gif';
             }
         }
         const AltalanosTasks = filtered_AltalanosTasks.map((AltanaosTask,i)=>{
-            return (<GeneralCard loadData={this.props.loadData} AltanaosTask={AltanaosTask} task_description={AltanaosTask.task_description} solution={AltanaosTask.solution} />)
+            return (<GeneralCard isAdmin={this.props.isAdmin} loadData={this.props.loadData} AltanaosTask={AltanaosTask} task_description={AltanaosTask.task_description} solution={AltanaosTask.solution} />)
         });
         return (<div className={"bg-light min-vh-100 p-5 rounded "}>
                             <Form.Group controlId="AltalanosSubject">

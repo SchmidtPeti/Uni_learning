@@ -188,6 +188,7 @@ class MatAlapCard extends Component{
         this.setHiddenAnswers();
     }
     render() {
+        const {isAdmin} = this.props;
         const {topic,task_type} = this.state;
         const task_image = this.props.MatalapTask.task_description;
         const task_solution = this.props.MatalapTask.solutation;
@@ -196,8 +197,8 @@ class MatAlapCard extends Component{
         const {solution_showed,solution_stepbystep_showed} = this.state;
         return (
             <Card style={{ width: '100%'}} className="mx-auto shadow-sm p-3 mb-5 bg-white" fluid>
-            <Button onClick={this.submitDetelte} variant='dark' className='p-10' block>Törlés</Button>
-
+                {isAdmin ? <Button onClick={this.submitDetelte} variant='dark' className='p-10' block>Törlés</Button> : ""}
+                <hr />
             <Card.Body>
                   <Card.Title>{topic}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">{task_type}</Card.Subtitle>
@@ -215,8 +216,9 @@ class MatAlapCard extends Component{
               </Card.Body>
               <Card.Body bg="dark">
               <hr />
-              {this.state.editShow ?<Card.Link onClick={this.onShowEdit} ><Button classsName="danger" variant="danger" block>Bezárás</Button></Card.Link> :<Card.Link onClick={this.onShowEdit} ><Button variant="warning" block>Szerkeztés</Button></Card.Link>}
-{this.state.editShow ? 
+              {
+              isAdmin ? (this.state.editShow ?<Card.Link onClick={this.onShowEdit} ><Button classsName="danger" variant="danger" block>Bezárás</Button></Card.Link> :<Card.Link onClick={this.onShowEdit} ><Button variant="warning" block>Szerkeztés</Button></Card.Link>) : ""}
+                {this.state.editShow ? 
                     <div><EditMatcard 
                     Submitedit={this.Submitedit} 
                     id={id} 

@@ -12,6 +12,8 @@ import VeletlenGeneralTask from './Pages/VeletlenGeneralTask';
 import {Nav,NavDropdown,Alert} from 'react-bootstrap';
 import loading_img from './images/loading.gif';
 import {Container,Row,Col} from 'react-bootstrap';
+import MatAlapCard from "./Components/MatAlapCard";
+import GeneralCard from './Components/GeneralCard';
 import {
   BrowserRouter as Router,
   Switch,
@@ -29,9 +31,7 @@ class App extends Component {
         GeneralTasks : [],
         isLoading: true,
         isLoadingMat: true, 
-        solution_showed : false,
-        solution_stepbystep_showed : false,
-        editTask : false
+        isAdmin : false
     }
     this.loadData();
     
@@ -91,25 +91,40 @@ class App extends Component {
   onSolution_stepbystep = () => {
       this.setState({solution_stepbystep_showed : true})
   }
+  adminPopup = () => {
+    const adminCheck = prompt("Password");
+    if(adminCheck===process.env.REACT_APP_ADMIN_PASSWORD){
+      this.setState({isAdmin:true});
+    }
+  }
   render() {
+    const {isAdmin} = this.state;
     const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
+    const lastMatItem = this.state.MatAlapTasks[this.state.MatAlapTasks.length-1];
+    const LastGenItem = this.state.GeneralTasks[this.state.GeneralTasks.length-1]
     return (
     <div className="App"  style={{backgroundImage : "url("+background+")", backgroundAttachment: "fixed", minHeight: 1000}}  >
       <Router>
       <Nav defaultActiveKey="/home" as="ul" className="bg-dark navbar-collapse">
   <Nav.Item as="li">
-    <Nav.Link><Link to="/">Uni_learning</Link></Nav.Link>
+    <Nav.Link><Link to="/">Uni_learning<span onClick={() => this.adminPopup()}>!!!</span></Link></Nav.Link>
   </Nav.Item>
   <NavDropdown title="Matematika alapok" id="collasible-nav-dropdown">
         <NavDropdown.Item><Link to="/MatAlapok">Matek </Link></NavDropdown.Item>
-        <NavDropdown.Item><Link to="/addMatek">Matek feladat hozzáadás</Link></NavDropdown.Item>
+        {isAdmin ? 
+       <NavDropdown.Item><Link to="/addMatek">Matek feladat hozzáadás</Link></NavDropdown.Item> :
+       ""  
+      }
         <NavDropdown.Item><Link to="/generatePage">Matek alapok 1. ZH generálás</Link></NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item><Link to="/veletlen">Véletlen Matek alap feladat</Link></NavDropdown.Item>
       </NavDropdown>
   <NavDropdown title="Általános feladatok" id="collasible-nav-dropdown_id">
-        <NavDropdown.Item><Link to="/addEgyetemiTantargy">Általános feladat hozzáadás</Link></NavDropdown.Item>
-        <NavDropdown.Item><Link to="/AltalanosTasks">Általános feladatok</Link></NavDropdown.Item>
+    {isAdmin ?
+             <NavDropdown.Item><Link to="/addEgyetemiTantargy">Általános feladat hozzáadás</Link></NavDropdown.Item>
+     : 
+     ""
+     }        <NavDropdown.Item><Link to="/AltalanosTasks">Általános feladatok</Link></NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item><Link to="/VeletlenAltalanosTaks">Véletlen általános feladatok </Link></NavDropdown.Item>
       </NavDropdown>   
@@ -122,6 +137,23 @@ class App extends Component {
           <div className={"bg-light min-vh-100 p-5 rounded"}>
             {this.state.isLoadingMat ? Loading : <Alert variant="success">Matek feladatok betöltve</Alert> }
             {this.state.isLoading ? Loading : <Alert variant="success">Általános feladatok betöltve</Alert> }
+            {this.state.MatAlapTasks.length>0 ? <div><h2>Legutóbbi matek</h2><MatAlapCard 
+                            isAdmin={isAdmin}
+                            loadData={this.loadData}  
+                            MatalapTask={lastMatItem} 
+                            id={lastMatItem._id} 
+                            topic={lastMatItem.topic} 
+                            task_type={lastMatItem.task_type} 
+                            task_image={lastMatItem.task_description} 
+                            task_solution={lastMatItem.solutation} 
+                            task_solution_stepbystep={lastMatItem.solutation_stepbystep} className={'col-6'} /></div>
+                           : "" }
+            {
+              this.state.GeneralTasks.length>0 ?
+              <GeneralCard isAdmin={isAdmin} loadData={this.loadData} AltanaosTask={LastGenItem} task_description={LastGenItem.task_description} solution={LastGenItem.solution}/>
+              :
+               "" 
+            }               
           </div>
           </Route>
           <Route exact path="/addMatek">
@@ -131,19 +163,19 @@ class App extends Component {
           <GeneralForm  loadData={this.loadData} GeneralTasks={this.state.GeneralTasks}/>
           </Route>          
           <Route path="/MatAlapok">
-            <HomePage loadData={this.loadData} editStart={this.editStart} editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
+            <HomePage isAdmin={isAdmin} loadData={this.loadData} editStart={this.editStart} editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
           </Route>
           <Route path="/veletlen">
-            <VeletlenPage MatAlapTasks={this.state.MatAlapTasks}/>
+            <VeletlenPage isAdmin={isAdmin} load={this.loadData} MatAlapTasks={this.state.MatAlapTasks}/>
           </Route>
           <Route path="/AltalanosTasks">
-            <AltalanosPage loadData={this.loadData} AltanaosTasks={this.state.GeneralTasks} isLoading={this.state.isLoading} />
+            <AltalanosPage isAdmin={isAdmin} loadData={this.loadData} AltanaosTasks={this.state.GeneralTasks} isLoading={this.state.isLoading} />
           </Route>  
           <Route path="/VeletlenAltalanosTaks">
-            <VeletlenGeneralTask GeneralTasks={this.state.GeneralTasks} />
+            <VeletlenGeneralTask isAdmin={isAdmin} loadData={this.loadData} GeneralTasks={this.state.GeneralTasks} />
           </Route> 
           <Route path="/generatePage">
-            <GenerateZh Generated_matalap_list={this.generate_list()} />
+            <GenerateZh isAdmin={isAdmin} loadData={this.loadData} Generated_matalap_list={this.generate_list()} />
           </Route>   
         </Switch>
         </Col>

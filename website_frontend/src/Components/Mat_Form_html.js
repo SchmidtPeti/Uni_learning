@@ -2,7 +2,7 @@ import React from 'react';
 import {Form,Button} from 'react-bootstrap';
 
 const MatFormHtml = ({myChangeHandler,submitMatAlap,onFileChange,onFileChangeTaskDesc,onFileChangeSolutation,MatAlapCategories}) =>{
-    const Option_Cat = MatAlapCategories.map((Category) =>{
+    const Option_Cat = MatAlapCategories.reverse().map((Category) =>{
         if(Category!==""){
             return (<li key={Category}>{Category}</li>);
         }
@@ -27,7 +27,8 @@ const MatFormHtml = ({myChangeHandler,submitMatAlap,onFileChange,onFileChangeTas
       </Form.Group>
       <Form.Group controlId="topic_examples">
         Ezek már voltak
-        <ul>{Option_Cat}</ul>
+        <br />
+        <li style={{overflow:'scroll',height:300, listStyle :'none'}}>{Option_Cat}</li>
         
       </Form.Group>
       <Form.Group controlId="task_level_id">

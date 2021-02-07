@@ -66,6 +66,7 @@ class HomePage extends React.Component {
         const MatTaskCard = filtered_MatAlapTasks.map((matalapTask)=>{
             return (
                 <MatAlapCard 
+                isAdmin={this.props.isAdmin}
                 loadData={this.props.loadData}  
                 MatalapTask={matalapTask} 
                 id={matalapTask._id} 
