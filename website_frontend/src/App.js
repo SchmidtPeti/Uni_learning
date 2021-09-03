@@ -101,7 +101,7 @@ class App extends Component {
       <Router>
       <Nav defaultActiveKey="/home" as="ul" className="bg-dark navbar-collapse">
   <Nav.Item as="li">
-    <Nav.Link><Link to="/">Uni_learning<span onClick={() => this.adminPopup()}>!!!</span></Link></Nav.Link>
+    <Nav.Link><Link to="/">Uni_learning<span onClick={() => this.adminPopup()}>(!!!)</span></Link></Nav.Link>
   </Nav.Item>
   <NavDropdown title="Matematika" id="collasible-nav-dropdown">
         <NavDropdown.Item><Link to="/Matek">Matek </Link></NavDropdown.Item>
