@@ -11,7 +11,7 @@ class HomePage extends React.Component {
         this.state = {
             MatAlapTasks : [],
             From : 0,
-            current_category : "-",
+            current_category : "*",
             to : 0,
             max : 0,
         }
@@ -42,13 +42,9 @@ class HomePage extends React.Component {
             else{
                 return '';
             }
-        });
-        const MAX_FELADATOK_ALAPBOL=10;
-        let feladatokSzamolo = 0;
+        }).reverse();
         let filtered_MatAlapTasks = [];
-        let ujakElol=MatAlapTasks;
-        ujakElol.reverse();
-        for(let i=0;i<MatAlapTasks.length;i++){
+        /*for(let i=0;i<MatAlapTasks.length;i++){
             if(this.state.current_category==="*"){
                 filtered_MatAlapTasks.push(MatAlapTasks[i]);
                 }
@@ -61,8 +57,17 @@ class HomePage extends React.Component {
                 else if(MatAlapTasks[i].topic===this.state.current_category) {
                     filtered_MatAlapTasks.push(MatAlapTasks[i]);
                 }
+        }*/
+        if(this.state.current_category==="*"){
+            filtered_MatAlapTasks = this.props.MatAlapTasks;
         }
-        filtered_MatAlapTasks.reverse();
+        else{
+            filtered_MatAlapTasks = this.props.MatAlapTasks.filter(
+                (elem)=>
+                    elem.topic===this.state.current_category
+                );
+        }
+        filtered_MatAlapTasks = filtered_MatAlapTasks.reverse();
         const MatTaskCard = filtered_MatAlapTasks.map((matalapTask)=>{
             return (
                 <MatAlapCard 
@@ -76,7 +81,7 @@ class HomePage extends React.Component {
                 task_solution={matalapTask.solutation} 
                 task_solution_stepbystep={matalapTask.solutation_stepbystep}  />
             )
-        }).reverse();
+        });
         const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
         if(MatAlapTasks.length>0){
         return(

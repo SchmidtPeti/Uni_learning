@@ -189,7 +189,7 @@ class MatAlapCard extends Component{
     }
     render() {
         const {isAdmin} = this.props;
-        const {topic,task_type} = this.state;
+        const {topic,task_type} = this.props;
         const task_image = this.props.MatalapTask.task_description;
         const task_solution = this.props.MatalapTask.solutation;
         const task_solution_stepbystep = this.props.MatalapTask.solutation_stepbystep;  

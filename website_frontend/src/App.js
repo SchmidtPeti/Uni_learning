@@ -68,17 +68,11 @@ class App extends Component {
     }
     generate_list = () => {
       const topics = [
-        "Algebrai és gyökös kifejezések I.",
-        "Másodfokú egyenletek, egyenlőtlenségek",
-        "Algebrai és gyökös kifejezések II.",
-        "Exponenciális, logaritmusos kifejezések, egyenletek, egyenlőtlenségek",
-        "Trigonometrikus azonosságok, egyenletek, egyenlőtlenségek",
-        "Nagyságrend-őrző becslések és függvények további becslései",
-        "Kijelentések, kvantorok, logikai állítások I.",
-        "Kijelentések, kvantorok, logikai állítások II.",
-        "Kijelentések, kvantorok, logikai állítások III.",
-        "Teljes indukció",
-        "Matematikai alapok 1. zárthelyi"
+        "Analízis Számhalmaz szuprémuma és infimuma",
+        "Függvények",
+        "Valós sorozatok 1.",
+        "Valós sorozatok 2.",
+        "Valós sorozatok 3."
       ];
       let filtered_MatAlapTasks_zh_list = [];
       topics.forEach( (topic,index) => {
@@ -109,8 +103,8 @@ class App extends Component {
   <Nav.Item as="li">
     <Nav.Link><Link to="/">Uni_learning<span onClick={() => this.adminPopup()}>!!!</span></Link></Nav.Link>
   </Nav.Item>
-  <NavDropdown title="Matematika alapok" id="collasible-nav-dropdown">
-        <NavDropdown.Item><Link to="/MatAlapok">Matek </Link></NavDropdown.Item>
+  <NavDropdown title="Matematika" id="collasible-nav-dropdown">
+        <NavDropdown.Item><Link to="/Matek">Matek </Link></NavDropdown.Item>
         {isAdmin ? 
        <NavDropdown.Item><Link to="/addMatek">Matek feladat hozzáadás</Link></NavDropdown.Item> :
        ""  
@@ -162,7 +156,7 @@ class App extends Component {
           <Route exact path="/addEgyetemiTantargy">
           <GeneralForm  loadData={this.loadData} GeneralTasks={this.state.GeneralTasks}/>
           </Route>          
-          <Route path="/MatAlapok">
+          <Route path="/Matek">
             <HomePage isAdmin={isAdmin} loadData={this.loadData} editStart={this.editStart} editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
           </Route>
           <Route path="/veletlen">

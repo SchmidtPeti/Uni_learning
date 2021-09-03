@@ -42,7 +42,7 @@ import loading_img from '../images/loading.gif';
         const MAX_ALTALNOS_AZ_ELEJEN=10;
         let maxAltCounter=0;
         let filtered_AltalanosTasks = [];
-        let az_elso_kidobos_lista = AltanaosTasks.reverse();
+        let az_elso_kidobos_lista = AltanaosTasks;
         for(let i=0;i<az_elso_kidobos_lista.length;i++){
             if(this.state.CurrentSubject==="*"){
                 filtered_AltalanosTasks.push(az_elso_kidobos_lista[i]);
@@ -55,7 +55,7 @@ import loading_img from '../images/loading.gif';
                 maxAltCounter++;
             }
         }
-        const AltalanosTasks = filtered_AltalanosTasks.map((AltanaosTask,i)=>{
+        const AltalanosTasks = filtered_AltalanosTasks.reverse().map((AltanaosTask,i)=>{
             return (<GeneralCard isAdmin={this.props.isAdmin} loadData={this.props.loadData} AltanaosTask={AltanaosTask} task_description={AltanaosTask.task_description} solution={AltanaosTask.solution} />)
         });
         return (<div className={"bg-light min-vh-100 p-5 rounded "}>
