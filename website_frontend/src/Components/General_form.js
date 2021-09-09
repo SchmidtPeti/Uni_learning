@@ -56,7 +56,7 @@ class GeneralForm extends React.Component{
     const playload = {task_description,task_type,topic,solution,major,subject_name,semester,university,solution_by,solution_by_credit,source,time,difficulty};
     console.log(playload);
     await api.insertGeneralTask(playload).then(() => console.log("success")).catch(error => console.log(error));
-    this.props.loadData();
+    //this.props.loadData();
   }
   myChangeHandler = (event) => {
     let nam = event.target.name;

@@ -14,6 +14,8 @@ import loading_img from './images/loading.gif';
 import {Container,Row,Col} from 'react-bootstrap';
 import MatAlapCard from "./Components/MatAlapCard";
 import GeneralCard from './Components/GeneralCard';
+import {Form} from 'react-bootstrap';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -31,19 +33,20 @@ class App extends Component {
         GeneralTasks : [],
         isLoading: true,
         isLoadingMat: true, 
-        isAdmin : false
+        isAdmin : false,
+        topic : ""
     }
-    this.loadData();
+    this.loadData(1);
     
   }
-    loadData = async () => {
+    loadData = async (topic) => {
       this.setState({MatAlapTasks :[],GeneralTasks:[]});
-      await api.getAllMatAlapTasks().then(MatAlapTasks => {
+      await api.getAllMatAlapTasks(topic).then(MatAlapTasks => {
           this.setState({
             MatAlapTasks: MatAlapTasks.data.data,
             isLoadingMat: false,
           })
-      });
+      }).catch(err => console.log(err));
       await api.getAllGeneralTasks().then(GeneralTasks => {
         this.setState({
           GeneralTasks: GeneralTasks.data.data,
@@ -59,12 +62,18 @@ class App extends Component {
     }
     topic_list=(topic) =>{
       let topic_list = [];
+      //console.log(this.state.MatAlapTasks);
       this.state.MatAlapTasks.forEach(task => {
         if(task.topic===topic){
           topic_list.push(task);
         }
       })
       return topic_list;
+    }
+    myChangeHandler = (event) => {
+      let nam = event.target.name;
+      let val = event.target.value;
+      this.setState({[nam]: val});
     }
     generate_list = () => {
       const topics = [
@@ -101,7 +110,7 @@ class App extends Component {
       <Router>
       <Nav defaultActiveKey="/home" as="ul" className="bg-dark navbar-collapse">
   <Nav.Item as="li">
-    <Nav.Link><Link to="/">Uni_learning<span onClick={() => this.adminPopup()}>(!!!)</span></Link></Nav.Link>
+    <Nav.Link><Link to="/">Uni_learning()<span onClick={() => this.adminPopup()}>(!!!)</span></Link></Nav.Link>
   </Nav.Item>
   <NavDropdown title="Matematika" id="collasible-nav-dropdown">
         <NavDropdown.Item><Link to="/Matek">Matek </Link></NavDropdown.Item>
@@ -124,6 +133,15 @@ class App extends Component {
       </NavDropdown>   
 </Nav>
 <Container className="justify-content-md-center">
+      <Row>
+        <Col>
+          <Form.Control as="select" name="topic" onChange={this.myChangeHandler}>
+                <option value="-">Kérlek válassz!</option>  
+                <option value="0">Matalap 1</option>  
+                <option value="1">Matalap 2</option> 
+          </Form.Control>
+        </Col>
+      </Row>  
             <Row>
             <Col>
       <Switch>  
@@ -157,7 +175,11 @@ class App extends Component {
           <GeneralForm  loadData={this.loadData} GeneralTasks={this.state.GeneralTasks}/>
           </Route>          
           <Route path="/Matek">
-            <HomePage isAdmin={isAdmin} loadData={this.loadData} editStart={this.editStart} editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} solution_stepbystep_showed={this.state.solution_stepbystep_showed} onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
+            <HomePage isAdmin={isAdmin} loadData={this.loadData} editStart={this.editStart} 
+            editTask={this.state.editTask} isLoadingMat={this.state.isLoadingMat} 
+            MatAlapTasks={this.state.MatAlapTasks} solution_showed={this.state.solution_showed} 
+            solution_stepbystep_showed={this.state.solution_stepbystep_showed} 
+            onShowSolutation={this.onShowSolutation} onSolution_stepbystep={this.onSolution_stepbystep} />
           </Route>
           <Route path="/veletlen">
             <VeletlenPage isAdmin={isAdmin} load={this.loadData} MatAlapTasks={this.state.MatAlapTasks}/>
@@ -173,7 +195,7 @@ class App extends Component {
           </Route>   
         </Switch>
         </Col>
-            </Row> 
+          </Row> 
         </Container>
       </Router>  
     </div>)

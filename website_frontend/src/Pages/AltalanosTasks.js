@@ -2,6 +2,7 @@ import React from 'react';
 import GeneralCard from '../Components/GeneralCard';
 import {Form} from 'react-bootstrap';
 import loading_img from '../images/loading.gif';
+import reload_img from '../images/reload.png';
 
 
  class AltalanosPage extends React.Component{
@@ -31,6 +32,7 @@ import loading_img from '../images/loading.gif';
                 }
         }); 
         const Loading = <div><img src={loading_img} alt="Loading" className={"loading"} /></div>;
+        const reloadButton = <div><img src={reload_img} alt="Relod button" className={"reload"} /></div>;
         const Option_subName = GeneralTaskSubjectNames.map((SubjectName) =>{
             if(SubjectName!==""){
         return (<option key={SubjectName} value={SubjectName}>{SubjectName}</option>);
@@ -59,7 +61,8 @@ import loading_img from '../images/loading.gif';
             return (<GeneralCard isAdmin={this.props.isAdmin} loadData={this.props.loadData} AltanaosTask={AltanaosTask} task_description={AltanaosTask.task_description} solution={AltanaosTask.solution} />)
         });
         return (<div className={"bg-light min-vh-100 p-5 rounded "}>
-                            <Form.Group controlId="AltalanosSubject">
+            {reloadButton}
+            <Form.Group controlId="AltalanosSubject">
               <Form.Label>Melyik tantárgy?</Form.Label>
               <Form.Control as="select" name="AltalanosSubject" onChange={this.onChangeSubject}>
                 <option value="-">Kérlek válassz!</option>  

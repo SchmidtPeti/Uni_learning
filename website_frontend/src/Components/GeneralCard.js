@@ -202,22 +202,4 @@ class GeneralCard extends Component{
         )
     }
 }
-/*
-        this.setState({
-            item_id : this.props.AltanaosTask._id,
-            difficulty : this.props.AltanaosTask.difficulty,
-            major : this.props.AltanaosTask.major,
-            semester : this.props.AltanaosTask.semester,
-            solution : this.props.AltanaosTask.solution,
-            solution_by : this.props.AltanaosTask.solution_by,
-            solution_by_credit : this.props.AltanaosTask.solution_by_credit,
-            source : this.props.AltanaosTask.source,
-            subject_name : this.props.AltanaosTask.subject_name,
-            task_description : this.props.AltanaosTask.task_description,
-            task_type : this.props.AltanaosTask.task_type,
-            time : this.props.AltanaosTask.time,
-            topic : this.props.AltanaosTask.topic,
-            university : this.props.AltanaosTask.university
-        });
-*/
 export default GeneralCard;

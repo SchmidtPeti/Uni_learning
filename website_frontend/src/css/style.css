@@ -1,7 +1,11 @@
 .loading{
     width: 64px;
     margin: auto;
-    margin-top: 10%;
+}
+.reload{
+    width: 64px;
+    background-color: blueviolet;
+    padding: 2px;
 }
 body{
     background-color: black;

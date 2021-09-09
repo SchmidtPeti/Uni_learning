@@ -52,7 +52,7 @@ class MatAlapForm extends React.Component {
     const playload = {task_description,task_type,topic,level,solutation,major,solutation_stepbystep,solutation_by,solutation_by_credit,source,time,difficulty};
     console.log(playload);
     await api.insertMatAlapTask(playload).then(() => console.log("success")).catch(error => console.log(error));
-    this.props.loadData();
+    //this.props.loadData();
   }
   myChangeHandler = (event) => {
     let nam = event.target.name;
