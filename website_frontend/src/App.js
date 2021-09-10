@@ -14,7 +14,7 @@ import loading_img from './images/loading.gif';
 import {Container,Row,Col} from 'react-bootstrap';
 import MatAlapCard from "./Components/MatAlapCard";
 import GeneralCard from './Components/GeneralCard';
-import {Form} from 'react-bootstrap';
+import {Form,Button} from 'react-bootstrap';
 
 import {
   BrowserRouter as Router,
@@ -36,11 +36,10 @@ class App extends Component {
         isAdmin : false,
         topic : ""
     }
-    this.loadData(1);
     
   }
     loadData = async (topic) => {
-      this.setState({MatAlapTasks :[],GeneralTasks:[]});
+      this.setState({MatAlapTasks :[],GeneralTasks:[],isLoading : true,isLoadingMat:true});
       await api.getAllMatAlapTasks(topic).then(MatAlapTasks => {
           this.setState({
             MatAlapTasks: MatAlapTasks.data.data,
@@ -74,6 +73,9 @@ class App extends Component {
       let nam = event.target.name;
       let val = event.target.value;
       this.setState({[nam]: val});
+    }
+    submitCategory = () => {
+      this.loadData(this.state.topic);
     }
     generate_list = () => {
       const topics = [
@@ -134,12 +136,16 @@ class App extends Component {
 </Nav>
 <Container className="justify-content-md-center">
       <Row>
-        <Col>
+        <Col className={"bg-light min-vh-10 p-5 rounded"}>
           <Form.Control as="select" name="topic" onChange={this.myChangeHandler}>
-                <option value="-">Kérlek válassz!</option>  
+                <option value="-">Kérlek válassz!</option>
+                <option value="*">Összes</option>
                 <option value="0">Matalap 1</option>  
                 <option value="1">Matalap 2</option> 
           </Form.Control>
+          <Button type="submit" className="mb-2" onClick={this.submitCategory} block>
+          Feltöltés!
+          </Button>
         </Col>
       </Row>  
             <Row>
