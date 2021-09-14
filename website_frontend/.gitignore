@@ -13,6 +13,7 @@
 
 # misc
 env
+.idea
 .env
 .DS_Store
 .env.local
