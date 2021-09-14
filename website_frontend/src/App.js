@@ -31,8 +31,8 @@ class App extends Component {
     this.state = {
         MatAlapTasks : [],
         GeneralTasks : [],
-        isLoading: true,
-        isLoadingMat: true, 
+        isLoading: false,
+        isLoadingMat: false,
         isAdmin : false,
         topic : ""
     }
@@ -69,10 +69,13 @@ class App extends Component {
       })
       return topic_list;
     }
-    myChangeHandler = (event) => {
+    topicSelectorChange = (event) => {
       let nam = event.target.name;
       let val = event.target.value;
       this.setState({[nam]: val});
+      if(this.state.topic!==""){
+          this.setState({isLoading : true,isLoadingMat:true});
+      }
     }
     submitCategory = () => {
       this.loadData(this.state.topic);
@@ -86,7 +89,7 @@ class App extends Component {
         "Valós sorozatok 3."
       ];
       let filtered_MatAlapTasks_zh_list = [];
-      topics.forEach( (topic,index) => {
+      topics.forEach( (topic) => {
         let topics_list = this.topic_list(topic);
         filtered_MatAlapTasks_zh_list.push(topics_list[Math.floor(Math.random() * topics_list.length)]);
         filtered_MatAlapTasks_zh_list.push(topics_list[Math.floor(Math.random() * topics_list.length)]);
@@ -112,7 +115,7 @@ class App extends Component {
       <Router>
       <Nav defaultActiveKey="/home" as="ul" className="bg-dark navbar-collapse">
   <Nav.Item as="li">
-    <Nav.Link><Link to="/">Uni_learning()<span onClick={() => this.adminPopup()}>(!!!)</span></Link></Nav.Link>
+    <Nav.Link><Link to="/">Uni_learning<span onClick={() => this.adminPopup()}>(9)</span></Link></Nav.Link>
   </Nav.Item>
   <NavDropdown title="Matematika" id="collasible-nav-dropdown">
         <NavDropdown.Item><Link to="/Matek">Matek </Link></NavDropdown.Item>
@@ -135,9 +138,9 @@ class App extends Component {
       </NavDropdown>   
 </Nav>
 <Container className="justify-content-md-center">
-      <Row>
-        <Col className={"bg-light min-vh-10 p-5 rounded"}>
-          <Form.Control as="select" name="topic" onChange={this.myChangeHandler}>
+      <div>
+        <div className={"bg-light min-vh-10 p-5 rounded"}>
+          <Form.Control as="select" name="topic" onChange={this.topicSelectorChange}>
                 <option value="-">Kérlek válassz!</option>
                 <option value="*">Összes</option>
                 <option value="0">Matalap 1</option>  
@@ -146,15 +149,15 @@ class App extends Component {
           <Button type="submit" className="mb-2" onClick={this.submitCategory} block>
           Feltöltés!
           </Button>
-        </Col>
-      </Row>  
+        </div>
+      </div>
             <Row>
             <Col>
       <Switch>  
           <Route exact path="/">
           <div className={"bg-light min-vh-100 p-5 rounded"}>
-            {this.state.isLoadingMat ? Loading : <Alert variant="success">Matek feladatok betöltve</Alert> }
-            {this.state.isLoading ? Loading : <Alert variant="success">Általános feladatok betöltve</Alert> }
+            {this.state.isLoadingMat ? Loading : "" }
+            {this.state.isLoading ? Loading : "" }
             {this.state.MatAlapTasks.length>0 ? <div><h2>Legutóbbi matek</h2><MatAlapCard 
                             isAdmin={isAdmin}
                             loadData={this.loadData}  
