@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import background from './images/background.jpg';
 import AltalanosPage from './Pages/AltalanosTasks';
 import VeletlenGeneralTask from './Pages/VeletlenGeneralTask';
-import {Nav,NavDropdown,Alert} from 'react-bootstrap';
+import {Nav,NavDropdown} from 'react-bootstrap';
 import loading_img from './images/loading.gif';
 import {Container,Row,Col} from 'react-bootstrap';
 import MatAlapCard from "./Components/MatAlapCard";
@@ -145,6 +145,10 @@ class App extends Component {
                 <option value="*">Összes</option>
                 <option value="0">Matalap 1</option>  
                 <option value="1">Matalap 2</option> 
+                <option value="2">Matalap 3</option>
+                <option value="3">Anal_1</option>
+                <option value="4">Anal_2</option>
+                <option value="5">DiMat1</option>
           </Form.Control>
           <Button type="submit" className="mb-2" onClick={this.submitCategory} block>
           Feltöltés!

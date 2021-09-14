@@ -188,46 +188,40 @@ class MatAlapCard extends Component{
         this.setHiddenAnswers();
     }
     render() {
-        const {isAdmin} = this.props;
-        const {topic,task_type} = this.props;
-        const task_image = this.props.MatalapTask.task_description;
-        const task_solution = this.props.MatalapTask.solutation;
-        const task_solution_stepbystep = this.props.MatalapTask.solutation_stepbystep;  
-        const id = this.state.item_id;
         const {solution_showed,solution_stepbystep_showed} = this.state;
         return (
             <Card style={{ width: '100%'}} className="mx-auto shadow-sm p-3 mb-5 bg-white" fluid>
-                {isAdmin ? <Button onClick={this.submitDetelte} variant='dark' className='p-10' block>Törlés</Button> : ""}
+                {this.props.isAdmin ? <Button onClick={this.submitDetelte} variant='dark' className='p-10' block>Törlés</Button> : ""}
                 <hr />
             <Card.Body>
-                  <Card.Title>{topic}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-muted">{task_type}</Card.Subtitle>
-                  <Card.Img variant="top"  src={task_image}/>
+                  <Card.Title>{this.props.MatalapTask.topic}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-muted">{this.props.MatalapTask.task_type}</Card.Subtitle>
+                  <Card.Img variant="top"  src={this.props.MatalapTask.task_description}/>
                   <Card.Text>
                       <hr />
                 </Card.Text>
               <Card.Link>
-                  {solution_showed? <Card.Img variant="middle" src={task_solution} /> : <Button onClick={this.onShowSolutation} variant="primary" block>Megoldás</Button>}
+                  {solution_showed? <Card.Img variant="middle" src={this.props.MatalapTask.solutation} /> : <Button onClick={this.onShowSolutation} variant="primary" block>Megoldás</Button>}
               </Card.Link>              
               <Card.Text>
                     <hr />
               </Card.Text>
-              {solution_stepbystep_showed? <Card.Img variant="bottom" src={task_solution_stepbystep} /> : <Button onClick={this.onSolution_stepbystep} variant="secondary" block>Megoldás részletesen</Button>}
+              {solution_stepbystep_showed? <Card.Img variant="bottom" src={this.props.MatalapTask.solutation_stepbystep} /> : <Button onClick={this.onSolution_stepbystep} variant="secondary" block>Megoldás részletesen</Button>}
               </Card.Body>
               <Card.Body bg="dark">
               <hr />
               {
-              isAdmin ? (this.state.editShow ?<Card.Link onClick={this.onShowEdit} ><Button classsName="danger" variant="danger" block>Bezárás</Button></Card.Link> :<Card.Link onClick={this.onShowEdit} ><Button variant="warning" block>Szerkeztés</Button></Card.Link>) : ""}
+              this.props.isAdmin ? (this.state.editShow ?<Card.Link onClick={this.onShowEdit} ><Button classsName="danger" variant="danger" block>Bezárás</Button></Card.Link> :<Card.Link onClick={this.onShowEdit} ><Button variant="warning" block>Szerkeztés</Button></Card.Link>) : ""}
                 {this.state.editShow ? 
                     <div><EditMatcard 
                     Submitedit={this.Submitedit} 
-                    id={id} 
+                    id={this.props.MatalapTask._id}
                     handler={this.myChangeHandler} 
-                    topic={this.state.topic} 
-                    task_type={task_type} 
-                    task_image={task_image} 
-                    task_solution={task_solution} 
-                    task_solution_stepbystep={task_solution_stepbystep} 
+                    topic={this.props.MatalapTask.topic}
+                    task_type={this.props.MatalapTask.task_type}
+                    task_image={this.props.MatalapTask.task_description}
+                    task_solution={this.props.MatalapTask.solutation}
+                    task_solution_stepbystep={this.props.MatalapTask.solutation_stepbystep}
                     editMatTaskSolution={this.editMatTaskSolution}
                     taskImageChange={this.taskImageChange}
                     taskImageSolutionChange={this.taskImageSolutionChange}
